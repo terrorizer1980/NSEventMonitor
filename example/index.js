@@ -1,7 +1,7 @@
 const path = require('path');
 const electron = require('electron');
 const { NSEventMonitor, NSEventMask } = require('nseventmonitor');
-const { app, BrowserWindow, Tray } = electron;
+const { app, BrowserWindow, Tray, Menu } = electron;
 
 let window = null;
 let tray = null;
@@ -65,7 +65,13 @@ const toggleWindow = () => {
   if(window.isVisible()) {
     window.hide();
   } else {
-    showWindow();
+    // On macOS 11, the already selected status items do not automatically hide when the window
+    // is being shown.
+    // Attempt to show an empty context menu to deselect the active status item. When doing so,
+    // the context menu is not being presented visually.
+    const contextMenu = Menu.buildFromTemplate([]);
+    contextMenu.on('menu-will-show', () => showWindow());
+    tray.popUpContextMenu(contextMenu);
   }
 };
 
