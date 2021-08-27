@@ -22,7 +22,7 @@
     "electron-mocha": "^9.3.2"
   },
   "dependencies": {
-    "nan": "^2.14.2",
+    "nan": "^2.15.0",
     "node-pre-gyp": "^0.16.0"
   },
   "os": [
